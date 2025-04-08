@@ -7,12 +7,20 @@ import RoyalNaboo from "./components/Royal";
 import { Light_Environment } from "./components/Light_Environment";
 import { VaderScene } from "./components/VaderScene";
 import { ManciniCanvas } from "./components/ManciniCanvas";
+import { EditorPanel } from "./components/EditorPanel";
 
 export default function App() {
   const [currentScene, setCurrentScene] = useState("vader");
   const [quality, setQuality] = useState("default");
   const [isPostProcessingEnabled, setIsPostProcessingEnabled] = useState(true);
+  const [environmentSettings, setEnvironmentSettings] = useState(null);
+  const [showEditor, setShowEditor] = useState(false);
   // Disable frameloop by default, waiting for WebGPU to be ready
+
+  // 환경맵 설정 변경 핸들러
+  const handleEnvironmentChange = (settings) => {
+    setEnvironmentSettings(settings);
+  };
 
   return (
     <>
@@ -23,6 +31,8 @@ export default function App() {
         currentScene={currentScene}
         setQuality={setQuality}
         quality={quality}
+        showEditor={showEditor}
+        setShowEditor={setShowEditor}
       />
 
       <Loader />
@@ -38,7 +48,7 @@ export default function App() {
           />
         )}
 
-        <Light_Environment />
+        <Light_Environment environmentSettings={environmentSettings} />
 
         <group position={[-1, 0, 0]}>
           <Hall position={[16.3, 0, -0.15]} scale={[1, 1, 1.3]} />
@@ -59,6 +69,12 @@ export default function App() {
           />
         </group>
       </ManciniCanvas>
+
+      {showEditor && (
+        <div className="editor-container">
+          <EditorPanel onEnvironmentChange={handleEnvironmentChange} />
+        </div>
+      )}
     </>
   );
 }

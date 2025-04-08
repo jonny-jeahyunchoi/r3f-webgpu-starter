@@ -5,6 +5,8 @@ export function Overlay({
   setCurrentScene,
   quality,
   setQuality,
+  showEditor,
+  setShowEditor,
 }) {
   return (
     <div className="overlay">
@@ -42,6 +44,12 @@ export function Overlay({
             className="toggle-quality"
           >
             {quality === "default" ? "Higher Quality" : "Performance Mode"}
+          </button>
+          <button
+            onClick={() => setShowEditor(!showEditor)}
+            className="editor-toggle"
+          >
+            {showEditor ? "Hide Editor" : "Show Editor"}
           </button>
         </div>
         <a

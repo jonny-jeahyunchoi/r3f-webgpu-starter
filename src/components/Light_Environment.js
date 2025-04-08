@@ -1,7 +1,17 @@
 import { Environment } from "@react-three/drei";
 import { OrbitControls } from "@react-three/drei";
 
-export function Light_Environment() {
+export function Light_Environment({ environmentSettings }) {
+  // 기본 환경맵 설정
+  const defaultSettings = {
+    preset: "sunset",
+    intensity: 0.7,
+    rotation: [0.4, 0, 1.4]
+  };
+
+  // 에디터 패널에서 변경한 설정이 있으면 사용, 없으면 기본 설정 사용
+  const settings = environmentSettings || defaultSettings;
+
   return (
     <>
       <directionalLight
@@ -30,9 +40,9 @@ export function Light_Environment() {
         maxZoom={1}
       />
       <Environment
-        preset="warehouse"
-        environmentIntensity={0.2}
-        environmentRotation={[0.4, 0, 1.4]}
+        preset={settings.preset}
+        environmentIntensity={settings.intensity}
+        environmentRotation={settings.rotation}
       />
     </>
   );
