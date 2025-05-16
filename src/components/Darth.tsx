@@ -8,7 +8,7 @@ Title: Darth Vader by Makeamo
 
 import React from "react"; // React import 추가
 import { useGLTF } from "@react-three/drei";
-import { Material, Mesh } from "three"; // Material, Mesh 타입 추가
+import { Material, Mesh } from "three/webgpu"; // Material, Mesh 타입 추가
 import { GLTF } from 'three-stdlib'; // GLTF 타입 추가
 import { ThreeElements } from '@react-three/fiber'; // ThreeElements import 추가
 

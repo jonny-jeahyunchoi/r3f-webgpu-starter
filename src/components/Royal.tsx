@@ -9,7 +9,7 @@ Title: Naboo Royal Starship (J-type 327 Nubian)
 
 import React from "react";
 import { Float, useGLTF } from "@react-three/drei";
-import { AdditiveBlending, DoubleSide, Material, Mesh } from "three";
+import { AdditiveBlending, DoubleSide, Material, Mesh } from "three/webgpu";
 import { GLTF } from 'three-stdlib';
 import { ThreeElements, type ThreeToJSXElements, extend } from '@react-three/fiber';
 import * as THREE from 'three/webgpu';
