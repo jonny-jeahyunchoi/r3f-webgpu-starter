@@ -1,8 +1,13 @@
+import React from 'react';
 import { Float } from "@react-three/drei";
 import { Probe } from "./Probe";
 import { Darth } from "./Darth";
 
-export function VaderScene() {
+interface VaderSceneProps {
+  // 이 컴포넌트는 현재 props를 받지 않지만, 향후 확장을 위해 비워둠
+}
+
+export const VaderScene: React.FC<VaderSceneProps> = () => {
   return (
     <>
       <Float speed={3.5} floatIntensity={0.2} rotationIntensity={0.3}>
@@ -52,4 +57,4 @@ export function VaderScene() {
       />
     </>
   );
-}
+} 

@@ -21,7 +21,7 @@ export function WebGPUPostProcessing({
   quality = "default",
 }) {
   const { gl: renderer, scene, camera, size } = useThree();
-  const postProcessingRef = useRef(null);
+  const postProcessingRef = useRef<THREE.PostProcessing | null>(null);
 
   useEffect(() => {
     if (!renderer || !scene || !camera) return;
@@ -67,16 +67,16 @@ export function WebGPUPostProcessing({
     const outputNode = smaa(blendColor(scenePassColor.add(bloomPass), ssrPass));
 
     // Setup post-processing
-    const postProcessing = new THREE.PostProcessing(renderer);
+    const postProcessing = new THREE.PostProcessing(renderer as unknown as THREE.WebGPURenderer);
     postProcessing.outputNode = outputNode;
     postProcessingRef.current = postProcessing;
 
     // Handle window resize
 
-    if (postProcessingRef.current.setSize) {
-      postProcessingRef.current.setSize(size.width, size.height);
-      postProcessingRef.current.needsUpdate = true;
-    }
+    // if (postProcessingRef.current.size) {
+    //   postProcessingRef.current.setSize(size.width, size.height);
+    //   postProcessingRef.current.needsUpdate = true;
+    // }
 
     return () => {
       postProcessingRef.current = null;

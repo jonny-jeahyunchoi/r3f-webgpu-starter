@@ -9,16 +9,47 @@ Title: Naboo Royal Starship (J-type 327 Nubian)
 
 import React from "react";
 import { Float, useGLTF } from "@react-three/drei";
-import { AdditiveBlending, DoubleSide } from "three";
+import { AdditiveBlending, DoubleSide, Material, Mesh } from "three";
+import { GLTF } from 'three-stdlib';
+import { ThreeElements, type ThreeToJSXElements, extend } from '@react-three/fiber';
+import * as THREE from 'three/webgpu';
 import { useJetEngineMaterial } from "./JetEngineMaterial";
+import { MeshBasicNodeMaterial, MeshMatcapNodeMaterial, MeshStandardNodeMaterial } from 'three/webgpu';
 
-export default function RoyalNaboo(props) {
-  const { nodes, materials } = useGLTF("/naboo_royal_starship-transformed.glb");
+declare module '@react-three/fiber' {
+  interface ThreeElements extends ThreeToJSXElements<typeof THREE> {}
+}
+extend({ MeshMatcapNodeMaterial, MeshBasicNodeMaterial, MeshStandardNodeMaterial });
+
+interface GLTFResult extends GLTF {
+  nodes: {
+    Object_2: Mesh;
+    Object_3: Mesh;
+    Object_4: Mesh;
+    Object_5: Mesh;
+    Object_6: Mesh;
+  };
+  materials: {
+    ['Material.002']: Material;
+    ['aiwindow.002']: Material;
+    ['blinn1.002']: Material & { roughness: number; metalness: number; roughnessMap: any };
+  };
+}
+
+type RoyalNabooProps = ThreeElements['group'] & {
+  // 여기에 RoyalNaboo 컴포넌트만의 추가적인 props를 정의할 수 있습니다.
+};
+
+export default function RoyalNaboo(props: RoyalNabooProps) {
+  const { nodes, materials } = useGLTF("/naboo_royal_starship-transformed.glb") as unknown as GLTFResult;
   const { key, colorNode } = useJetEngineMaterial();
 
-  materials["blinn1.002"].roughness = 0.15;
-  materials["blinn1.002"].metalness = 1;
-  materials["blinn1.002"].roughnessMap = null;
+  const blinnMaterial = materials["blinn1.002"];
+  if (blinnMaterial) {
+    blinnMaterial.roughness = 0.15;
+    blinnMaterial.metalness = 1;
+    blinnMaterial.roughnessMap = null;
+  }
 
   return (
     <Float speed={2} floatIntensity={0.2} rotationIntensity={0.3}>
@@ -40,19 +71,19 @@ export default function RoyalNaboo(props) {
             castShadow
             receiveShadow
             geometry={nodes.Object_4.geometry}
-            material={materials["blinn1.002"]}
+            material={blinnMaterial}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.Object_5.geometry}
-            material={materials["blinn1.002"]}
+            material={blinnMaterial}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.Object_6.geometry}
-            material={materials["blinn1.002"]}
+            material={blinnMaterial}
           />
           <mesh position={[-1.48, -4.1, -0.36]}>
             <cylinderGeometry args={[0.2, 0.01, 2.9, 16, 8, true]} />
@@ -108,4 +139,4 @@ export default function RoyalNaboo(props) {
   );
 }
 
-useGLTF.preload("/naboo_royal_starship-transformed.glb");
+useGLTF.preload("/naboo_royal_starship-transformed.glb"); 

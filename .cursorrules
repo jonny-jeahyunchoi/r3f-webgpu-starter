@@ -1,12 +1,12 @@
-# R3F WebGPU Starter Project Rules
+# R3F WebGPU 스타터 프로젝트 규칙
 
 ## 프로젝트 구조
-- src/: 소스 코드 디렉토리
-  - components/: React 컴포넌트들
-  - App.js: 메인 애플리케이션 컴포넌트
-  - index.js: 애플리케이션 진입점
-  - styles.css: 전역 스타일
-- public/: 정적 파일 디렉토리
+- `src/`: 소스 코드 디렉토리
+  - `components/`: [React 컴포넌트들](mdc:src/components)
+  - `App.js`: [메인 애플리케이션 컴포넌트](mdc:src/App.js)
+  - `index.js`: [애플리케이션 진입점](mdc:src/index.js)
+  - `styles.css`: [전역 스타일](mdc:src/styles.css)
+- `public/`: 정적 파일 디렉토리
 
 ## 주요 기술 스택
 - React Three Fiber (R3F): Three.js를 React에서 사용하기 위한 라이브러리
@@ -30,6 +30,6 @@
 - 3D 그래픽스 프로그래밍 기초
 
 ## 파일 설명
-- App.js: 메인 3D 씬 설정 및 렌더링
-- components/: 재사용 가능한 3D 컴포넌트들
-- styles.css: 기본 스타일링 및 레이아웃 
+- `App.js`: [메인 3D 씬 설정 및 렌더링](mdc:src/App.js)
+- `components/`: [재사용 가능한 3D 컴포넌트들](mdc:src/components)
+- `styles.css`: [기본 스타일링 및 레이아웃](mdc:src/styles.css) 

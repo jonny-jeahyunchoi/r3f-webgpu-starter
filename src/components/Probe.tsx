@@ -1,11 +1,43 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useGLTF } from "@react-three/drei";
+import { Material, Mesh, Color } from "three";
+import { GLTF } from 'three-stdlib';
+import { ThreeElements } from '@react-three/fiber';
 
-export function Probe(props) {
-  const { nodes, materials } = useGLTF("/probe-transformed.glb");
-  const lightMaterial = materials.light.clone();
+interface LightMaterial extends Material {
+  emissiveIntensity?: number;
+  emissive?: Color;
+}
+
+interface GLTFResult extends GLTF {
+  nodes: {
+    ["cam_low_Material_#26_0_1"]: Mesh;
+    ["cam_low_Material_#26_0_2"]: Mesh;
+    ["ball_low_Material_#26_0"]: Mesh;
+    ["d_low_Material_#26_0"]: Mesh;
+    ["inner_low_Material_#26_0"]: Mesh;
+    ["Object018_Material_#26_0"]: Mesh;
+    ["shell_low_Material_#26_0"]: Mesh;
+  };
+  materials: {
+    light: LightMaterial;
+    Material_26: Material;
+  };
+}
+
+type ProbeProps = ThreeElements['group'] & {
+  color?: string | number | Color;
+};
+
+export const Probe: React.FC<ProbeProps> = (props) => {
+  const { nodes, materials } = useGLTF("/probe-transformed.glb") as unknown as GLTFResult;
+  
+  const lightMaterial = materials.light.clone() as LightMaterial;
   lightMaterial.emissiveIntensity = 10;
-  lightMaterial.emissive.set(props.color);
+  if (props.color) {
+    if (!lightMaterial.emissive) lightMaterial.emissive = new Color();
+    lightMaterial.emissive.set(props.color);
+  }
 
   return (
     <group {...props} dispose={null}>
@@ -73,4 +105,4 @@ export function Probe(props) {
   );
 }
 
-useGLTF.preload("/probe-transformed.glb");
+useGLTF.preload("/probe-transformed.glb"); 

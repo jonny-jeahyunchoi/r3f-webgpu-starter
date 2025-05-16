@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { Environment } from "@react-three/drei";
+import React, { useState, ChangeEvent } from 'react';
 
 // 환경맵 프리셋 목록
-const ENVIRONMENT_PRESETS = [
+const ENVIRONMENT_PRESETS: string[] = [
   "apartment",
   "city",
   "dawn",
@@ -15,8 +14,12 @@ const ENVIRONMENT_PRESETS = [
   "warehouse"
 ];
 
-// 환경맵 프리셋 이미지 경로
-const ENVIRONMENT_PREVIEW_IMAGES = {
+// 환경맵 프리셋 이미지 경로 타입
+interface EnvironmentPreviewImages {
+  [key: string]: string;
+}
+
+const ENVIRONMENT_PREVIEW_IMAGES: EnvironmentPreviewImages = {
   "apartment": "/images/environment/lebombo_1k.png",
   "city": "/images/environment/potsdamer_platz_1k.png",
   "dawn": "/images/environment/kiara_1_dawn_1k.png",
@@ -29,14 +32,24 @@ const ENVIRONMENT_PREVIEW_IMAGES = {
   "warehouse": "/images/environment/empty_warehouse_01_1k.png"
 };
 
-export function EditorPanel({ onEnvironmentChange }) {
-  const [selectedPreset, setSelectedPreset] = useState("sunset");
-  const [environmentIntensity, setEnvironmentIntensity] = useState(0.7);
-  const [environmentRotation, setEnvironmentRotation] = useState([0.4, 0, 1.4]);
-  const [showEnvironmentPreview, setShowEnvironmentPreview] = useState(false);
+interface EnvironmentSettings {
+  preset: string;
+  intensity: number;
+  rotation: [number, number, number];
+}
+
+interface EditorPanelProps {
+  onEnvironmentChange: (settings: EnvironmentSettings) => void;
+}
+
+export const EditorPanel: React.FC<EditorPanelProps> = ({ onEnvironmentChange }) => {
+  const [selectedPreset, setSelectedPreset] = useState<string>("sunset");
+  const [environmentIntensity, setEnvironmentIntensity] = useState<number>(0.7);
+  const [environmentRotation, setEnvironmentRotation] = useState<[number, number, number]>([0.4, 0, 1.4]);
+  const [showEnvironmentPreview, setShowEnvironmentPreview] = useState<boolean>(false);
 
   // 환경맵 프리셋 변경 핸들러
-  const handlePresetChange = (e) => {
+  const handlePresetChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newPreset = e.target.value;
     setSelectedPreset(newPreset);
     onEnvironmentChange({
@@ -47,7 +60,7 @@ export function EditorPanel({ onEnvironmentChange }) {
   };
 
   // 환경맵 강도 변경 핸들러
-  const handleIntensityChange = (e) => {
+  const handleIntensityChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newIntensity = parseFloat(e.target.value);
     setEnvironmentIntensity(newIntensity);
     onEnvironmentChange({
@@ -58,8 +71,8 @@ export function EditorPanel({ onEnvironmentChange }) {
   };
 
   // 환경맵 회전 변경 핸들러
-  const handleRotationChange = (axis, value) => {
-    const newRotation = [...environmentRotation];
+  const handleRotationChange = (axis: number, value: string) => {
+    const newRotation = [...environmentRotation] as [number, number, number];
     newRotation[axis] = parseFloat(value);
     setEnvironmentRotation(newRotation);
     onEnvironmentChange({
@@ -101,8 +114,8 @@ export function EditorPanel({ onEnvironmentChange }) {
           <label>회전 X: {environmentRotation[0].toFixed(2)}</label>
           <input 
             type="range" 
-            min="-Math.PI" 
-            max="Math.PI" 
+            min={-Math.PI} 
+            max={Math.PI} 
             step="0.1" 
             value={environmentRotation[0]} 
             onChange={(e) => handleRotationChange(0, e.target.value)} 
@@ -113,8 +126,8 @@ export function EditorPanel({ onEnvironmentChange }) {
           <label>회전 Y: {environmentRotation[1].toFixed(2)}</label>
           <input 
             type="range" 
-            min="-Math.PI" 
-            max="Math.PI" 
+            min={-Math.PI} 
+            max={Math.PI} 
             step="0.1" 
             value={environmentRotation[1]} 
             onChange={(e) => handleRotationChange(1, e.target.value)} 
@@ -125,8 +138,8 @@ export function EditorPanel({ onEnvironmentChange }) {
           <label>회전 Z: {environmentRotation[2].toFixed(2)}</label>
           <input 
             type="range" 
-            min="-Math.PI" 
-            max="Math.PI" 
+            min={-Math.PI} 
+            max={Math.PI} 
             step="0.1" 
             value={environmentRotation[2]} 
             onChange={(e) => handleRotationChange(2, e.target.value)} 
